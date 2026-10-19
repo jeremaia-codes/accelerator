@@ -35,6 +35,22 @@ Generates files, like models or controllers, are configured to auto-lint in `con
 - **Frozen string literals:** every Ruby file must start with
   `# frozen_string_literal: true`.
 
+### STYLING
+
+Styles use [Tailwind CSS](https://tailwindcss.com/), installed with
+[tailwindcss-rails](https://github.com/rails/tailwindcss-rails), which runs the
+standalone Tailwind CLI (no Node.js needed).
+
+- Start the app with `bin/dev`, not `bin/rails server`. It uses foreman to run
+  both processes in `Procfile.dev`: the Rails server and
+  `bin/rails tailwindcss:watch`, which rebuilds the CSS when files change.
+- `app/assets/tailwind/application.css` is the entry point. Add custom CSS
+  and Tailwind config there.
+- The compiled CSS goes to `app/assets/builds/`, which is gitignored. Run
+  `bin/rails tailwindcss:build` to build it once without the watcher.
+- `/smoke` is a test page with a Tailwind-styled heading. Open it to check
+  that the styles are compiling.
+
 ### TESTING
 
 Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
@@ -47,6 +63,11 @@ Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
   See [Faster system specs](#faster-system-specs-not-set-up) to configure JS.
   Set `TEST_BROWSER=true` to watch them run in a visible Chrome window
   (see [Watching system specs](#watching-system-specs-in-a-browser)).
+- System specs use whatever CSS was last compiled, so keep `bin/dev` running
+  or run `bin/rails tailwindcss:build` first. If the build is missing or
+  stale, specs that check styles fail. CI builds the CSS before the system
+  specs run. `spec/system/tailwind_spec.rb` checks that the styles on `/smoke`
+  apply.
 - When a system spec fails, [capybara-screenshot](https://github.com/mattheworiordan/capybara-screenshot)
   saves the page's HTML and a PNG to `tmp/screenshots/` and prints the paths.
   Rails also saves its own `failures_*.png` there. Saved HTML loads its CSS
