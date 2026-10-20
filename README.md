@@ -22,3 +22,13 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+### RUBOCOP
+
+Ruby code is linted with [RuboCop](https://rubocop.org/), using the Rails
+default style ([rubocop-rails-omakase](https://github.com/rails/rubocop-rails-omakase))
+plus a few project rules in `.rubocop.yml`:
+
+- **Double quotes** for strings, including strings inside interpolation.
+- **Frozen string literals:** every Ruby file must start with
+  `# frozen_string_literal: true`.
