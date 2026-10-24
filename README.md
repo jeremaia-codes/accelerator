@@ -40,8 +40,12 @@ Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`).
 - Run the whole suite: `bin/rspec`
 - Run one file or example: `bin/rspec spec/requests/smoke_spec.rb:6`
 - Shared spec setup goes in `spec/support/`, which is loaded automatically.
+- Test data comes from [FactoryBot](https://github.com/thoughtbot/factory_bot)
+  factories in `spec/factories/`. Use `build(:widget)` / `create(:widget)`
+  directly in specs. `spec/factories_spec.rb` checks that every factory is valid.
 
 Rails generators create matching specs under `spec/`, for example:
 
-- `bin/rails generate model Widget` → `spec/models/widget_spec.rb`
+- `bin/rails generate model Widget` → `spec/models/widget_spec.rb` and
+  `spec/factories/widgets.rb`
 - `bin/rails generate controller Widgets` → `spec/requests/widgets_spec.rb`

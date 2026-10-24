@@ -29,6 +29,7 @@ module Accelerator
     # Generate RSpec specs (not Minitest tests) alongside generated code.
     config.generators do |g|
       g.test_framework :rspec, fixture: true
+      g.fixture_replacement :factory_bot, dir: "spec/factories"
       g.system_tests nil
     end
   end
