@@ -3,9 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Smoke test", type: :request do
-  it "boots the app and responds from the health check" do
-    get rails_health_check_path
+  let(:check) { build(:smoke_check) }
 
-    expect(response).to have_http_status(:ok)
+  it "boots the app and responds from the health check" do
+    get check.path
+
+    expect(response).to have_http_status(check.expected_status)
   end
 end
