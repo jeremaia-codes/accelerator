@@ -32,3 +32,32 @@ plus a few project rules in `.rubocop.yml`:
 - **Double quotes** for strings, including strings inside interpolation.
 - **Frozen string literals:** every Ruby file must start with
   `# frozen_string_literal: true`.
+
+### TESTING
+
+Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
+[Capybara](https://teamcapybara.github.io/capybara/).
+
+- Run the whole suite: `bin/rspec`
+- Run one file or example: `bin/rspec spec/requests/smoke_spec.rb:6`
+- System specs (`type: :system`, in `spec/system/`) use Capybara's fast
+  `rack_test` driver by default. Tag a spec with `js: true` to run it in
+  headless Chrome instead (requires Chrome installed locally).
+  Create one with `bin/rails generate rspec:system widgets`.
+- When a system spec fails, [capybara-screenshot](https://github.com/mattheworiordan/capybara-screenshot)
+  saves the page's HTML (plus a PNG for `js: true` specs) to `tmp/screenshots/`
+  and prints the paths. For `js: true` specs, Rails also saves its own
+  `failures_*.png` there. Call `screenshot_and_save_page` while debugging a
+  spec to save one on demand. In CI, that folder is uploaded as the `screenshots` artifact.
+  Old files aren't deleted automatically; clear them with
+  `bin/rails tmp:screenshots:clear`.
+- Shared spec setup goes in `spec/support/`, which is loaded automatically.
+- Test data comes from [FactoryBot](https://github.com/thoughtbot/factory_bot)
+  factories in `spec/factories/`. Use `build(:widget)` / `create(:widget)`
+  directly in specs. `spec/factories_spec.rb` checks that every factory is valid.
+
+Rails generators create matching specs under `spec/`, for example:
+
+- `bin/rails generate model Widget` → `spec/models/widget_spec.rb` and
+  `spec/factories/widgets.rb`
+- `bin/rails generate controller Widgets` → `spec/requests/widgets_spec.rb`
