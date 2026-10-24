@@ -35,10 +35,15 @@ plus a few project rules in `.rubocop.yml`:
 
 ### TESTING
 
-Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`).
+Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
+[Capybara](https://teamcapybara.github.io/capybara/).
 
 - Run the whole suite: `bin/rspec`
 - Run one file or example: `bin/rspec spec/requests/smoke_spec.rb:6`
+- System specs (`type: :system`, in `spec/system/`) use Capybara's fast
+  `rack_test` driver by default. Tag a spec with `js: true` to run it in
+  headless Chrome instead (requires Chrome installed locally).
+  Create one with `bin/rails generate rspec:system widgets`.
 - Shared spec setup goes in `spec/support/`, which is loaded automatically.
 - Test data comes from [FactoryBot](https://github.com/thoughtbot/factory_bot)
   factories in `spec/factories/`. Use `build(:widget)` / `create(:widget)`
