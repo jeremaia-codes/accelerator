@@ -45,6 +45,8 @@ Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
 - System specs (`type: :system`, in `spec/system/`) all run in headless Chrome
   with JavaScript on, so there's no need to tag `js: true`. 
   See [Faster system specs](#faster-system-specs-not-set-up) to configure JS.
+  Set `TEST_BROWSER=true` to watch them run in a visible Chrome window
+  (see [Watching system specs](#watching-system-specs-in-a-browser)).
 - Shared spec setup goes in `spec/support/`, which is loaded automatically.
 - Test data comes from [FactoryBot](https://github.com/thoughtbot/factory_bot)
   factories in `spec/factories/`. Call `build(:widget)` / `create(:widget)`
@@ -68,6 +70,18 @@ which creates every factory and trait and checks they're valid.
 - For classes that aren't Active Record models, use `to_create(&:validate!)`
   (not `skip_create`) so the lint can catch invalid attributes.
 
+#### Watching system specs in a browser
+
+System specs run in headless Chrome, with no window. To watch them run in a
+visible Chrome window, set `TEST_BROWSER`:
+
+```sh
+TEST_BROWSER=true bin/rspec spec/system
+```
+
+`true`, `1` and `yes` turn it on; leave it unset (as CI does) for headless.
+The switch lives in `spec/support/test_browser.rb`.
+
 #### Faster system specs (not set up)
 
 Running every system spec in Chrome is simple but slower, because each one
@@ -89,6 +103,10 @@ RSpec.configure do |config|
   end
 end
 ```
+
+If you add this, fold `spec/support/test_browser.rb` into the `js: true` block
+(use `:chrome` instead of `:headless_chrome` when `TEST_BROWSER` is set) so
+the switch keeps working.
 
 Capybara's own `js: true` doesn't work in system specs, because Rails picks
 the driver with `driven_by`, which is why the second block is needed. The same
