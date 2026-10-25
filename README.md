@@ -29,7 +29,7 @@ Ruby code is linted with [RuboCop](https://rubocop.org/), using the Rails
 default style ([rubocop-rails-omakase](https://github.com/rails/rubocop-rails-omakase))
 plus a few project rules in `.rubocop.yml`:
 
-Generates files, like models or controllers, are configured to auto-lint in config/application.rb
+Generates files, like models or controllers, are configured to auto-lint in `config/application.rb`.
 
 - **Double quotes** for strings, including strings inside interpolation.
 - **Frozen string literals:** every Ruby file must start with
