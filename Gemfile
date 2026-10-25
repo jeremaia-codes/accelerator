@@ -71,4 +71,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Save HTML and screenshots of failed system specs [https://github.com/mattheworiordan/capybara-screenshot]
+  gem "capybara-screenshot"
 end

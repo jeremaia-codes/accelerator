@@ -47,6 +47,15 @@ Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
   See [Faster system specs](#faster-system-specs-not-set-up) to configure JS.
   Set `TEST_BROWSER=true` to watch them run in a visible Chrome window
   (see [Watching system specs](#watching-system-specs-in-a-browser)).
+- When a system spec fails, [capybara-screenshot](https://github.com/mattheworiordan/capybara-screenshot)
+  saves the page's HTML and a PNG to `tmp/screenshots/` and prints the paths.
+  Rails also saves its own `failures_*.png` there. Saved HTML loads its CSS
+  and JavaScript from `http://localhost:3000` (`Capybara.asset_host`), so
+  start `bin/dev` before opening one in a browser. Call
+  `screenshot_and_save_page` while debugging a spec to save one on demand.
+  In CI, screenshots are saved as artifacts.
+  Old files aren't deleted automatically; clear them with
+  `bin/rails tmp:screenshots:clear`.
 - Shared spec setup goes in `spec/support/`, which is loaded automatically.
 - Test data comes from [FactoryBot](https://github.com/thoughtbot/factory_bot)
   factories in `spec/factories/`. Call `build(:widget)` / `create(:widget)`
