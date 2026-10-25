@@ -25,5 +25,8 @@ module Accelerator
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Format generated files with Rubocop automatically
+    config.generators.apply_rubocop_autocorrect_after_generate!
   end
 end
