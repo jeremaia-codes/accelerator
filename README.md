@@ -51,6 +51,19 @@ standalone Tailwind CLI (no Node.js needed).
 - `/smoke` is a test page with a Tailwind-styled heading. Open it to check
   that the styles are compiling.
 
+### COMPONENTS
+
+Reusable UI pieces are built with [ViewComponent](https://viewcomponent.org/):
+a Ruby class plus a template, rendered with `render ButtonComponent.new`.
+
+- Components live in `app/components/`. The Ruby class sits at the top level
+  and its other files (template, etc.) go in a sidecar folder of the same name:
+  `button_component.rb` and `button_component/button_component.html.erb`.
+- Generate one with `bin/rails generate view_component:component Button type --sidecar`,
+  which also creates a spec in `spec/components/`.
+- Component specs (`type: :component`) use `render_inline` and Capybara
+  matchers; `spec/support/view_component.rb` sets this up.
+
 ### TESTING
 
 Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and
