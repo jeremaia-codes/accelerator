@@ -64,6 +64,16 @@ a Ruby class plus a template, rendered with `render ButtonComponent.new`.
 - Component specs (`type: :component`) use `render_inline` and Capybara
   matchers; `spec/support/view_component.rb` sets this up.
 
+### LOOKBOOK
+
+[Lookbook](https://lookbook.build/) is a browsable UI for component previews,
+available in development at [/lookbook](http://localhost:3000/lookbook).
+
+- Previews live in `spec/components/previews/`, e.g.
+  `button_component_preview.rb`. Each public method is one preview.
+- ViewComponent only looks in `test/components/previews/` by default, so
+  `config/application.rb` adds the `spec/` path.
+
 ### TESTING
 
 Tests are written with [RSpec](https://rspec.info/) (`rspec-rails`) and

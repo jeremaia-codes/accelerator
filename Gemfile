@@ -71,6 +71,9 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Browse and preview view components [https://lookbook.build]
+  gem "lookbook"
 end
 
 group :test do
