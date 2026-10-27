@@ -28,5 +28,8 @@ module Accelerator
 
     # Format generated files with Rubocop automatically
     config.generators.apply_rubocop_autocorrect_after_generate!
+
+    # Load ViewComponent previews (and Lookbook) from spec/ instead of test/
+    config.view_component.previews.paths << Rails.root.join("spec/components/previews")
   end
 end
