@@ -6,7 +6,7 @@ FactoryBot.define do
     # FactoryBot.lint still catches invalid attributes.
     to_create(&:validate!)
 
-    path { "/up" }
+    path { "/smoke" }
     expected_status { 200 }
   end
 end
