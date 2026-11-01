@@ -21,6 +21,7 @@
   --color-banner:      var(--banner-bg);
   --color-banner-line: var(--banner-line);
   --color-banner-ink:  var(--banner-ink);
+  --color-overlay:     var(--overlay);
   --shadow-card:       var(--card-shadow);
 }
 
