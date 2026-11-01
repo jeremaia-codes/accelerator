@@ -54,6 +54,15 @@ standalone Tailwind CLI (no Node.js needed).
 - `/smoke` is a test page with a Tailwind-styled heading. Open it to check
   that the styles are compiling.
 
+### JAVASCRIPT
+
+#### Sidenav controller
+
+- Closes the open drawer on the way up to desktop by listening for `change`
+  on `window.matchMedia("(min-width: 48rem)")`. Unlike `resize`, it fires
+  only when the width crosses the breakpoint.
+- `48rem` is Tailwind's `md`, so keep the two in sync.
+
 ### COMPONENTS
 
 Reusable UI pieces are built with [ViewComponent](https://viewcomponent.org/):
