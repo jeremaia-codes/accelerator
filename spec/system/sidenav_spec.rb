@@ -85,13 +85,23 @@ RSpec.describe "Sidenav", type: :system do
   end
 
   context "from the md breakpoint up" do
-    it "shows the menu without the hamburger" do
+    before do
       resize_window(1280, 800)
       visit account_path
+    end
 
+    it "shows the menu without the hamburger" do
       expect(page).to have_css("aside", text: "Account")
       expect(page).to have_no_css(hamburger)
       expect(page).to have_no_css(close_button)
+    end
+
+    it "lets a menu taller than the screen scroll" do
+      page.execute_script("document.querySelector('aside nav').style.height = '1500px'")
+      page.driver.browser.action.scroll_by(0, 300).perform
+      sleep 0.2
+
+      expect(page.evaluate_script("document.querySelector('aside').scrollTop")).to be > 0
     end
   end
 
