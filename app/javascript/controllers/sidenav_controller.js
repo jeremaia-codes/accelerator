@@ -33,5 +33,6 @@ export default class extends Controller {
     this.backdropTarget.classList.toggle("hidden", !open)
     this.toggleTarget.setAttribute("aria-expanded", open)
     this.backgroundTargets.forEach((element) => { element.inert = open })
+    document.body.classList.toggle("overflow-hidden", open)
   }
 }
