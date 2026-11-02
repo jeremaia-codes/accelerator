@@ -46,6 +46,9 @@ standalone Tailwind CLI (no Node.js needed).
   `bin/rails tailwindcss:watch`, which rebuilds the CSS when files change.
 - `app/assets/tailwind/application.css` is the entry point. Add custom CSS
   and Tailwind config there.
+- `color-scheme: dark` in `app/assets/tailwind/tokens.css` tells the browser
+  the page is dark, so scrollbars and native form controls match. Keep it in
+  sync with the tokens when light mode is added.
 - The compiled CSS goes to `app/assets/builds/`, which is gitignored. Run
   `bin/rails tailwindcss:build` to build it once without the watcher.
 - `/smoke` is a test page with a Tailwind-styled heading. Open it to check
