@@ -37,6 +37,22 @@ RSpec.describe "Sidenav", type: :system do
       expect(page).to have_css("button[aria-expanded='false']")
     end
 
+    it "moves focus into the menu and blocks the page behind it" do
+      find(hamburger).click
+
+      expect(page).to have_css("#{close_button}:focus")
+      expect(page).to have_css("main[inert]")
+      expect(page).to have_css("[data-sidenav-target='background'][inert]", visible: :all, count: 2)
+    end
+
+    it "gives focus back to the hamburger and unblocks the page on close" do
+      find(hamburger).click
+      find("aside nav a").send_keys(:escape)
+
+      expect(page).to have_css("#{hamburger}:focus")
+      expect(page).to have_no_css("[inert]", visible: :all)
+    end
+
     it "closes the menu with its close button" do
       find(hamburger).click
       find(close_button).click
