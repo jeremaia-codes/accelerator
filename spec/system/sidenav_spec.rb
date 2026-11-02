@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Sidenav", type: :system do
   let(:hamburger) { "button[aria-label='Open menu']" }
+  let(:close_button) { "button[aria-label='Close menu']" }
 
   # Capybara reuses one browser window for every example, so put its size back.
   after { page.current_window.resize_to(*@original_size) if @original_size }
@@ -36,6 +37,13 @@ RSpec.describe "Sidenav", type: :system do
       expect(page).to have_css("button[aria-expanded='false']")
     end
 
+    it "closes the menu with its close button" do
+      find(hamburger).click
+      find(close_button).click
+
+      expect(page).to have_no_css("aside")
+    end
+
     it "closes the menu when the page behind it is clicked" do
       find(hamburger).click
       find("[data-sidenav-target='backdrop']").click(x: 200, y: 0)
@@ -51,6 +59,7 @@ RSpec.describe "Sidenav", type: :system do
 
       expect(page).to have_css("aside", text: "Account")
       expect(page).to have_no_css(hamburger)
+      expect(page).to have_no_css(close_button)
     end
   end
 
