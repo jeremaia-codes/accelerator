@@ -53,6 +53,22 @@ RSpec.describe "Sidenav", type: :system do
       expect(page).to have_no_css("[inert]", visible: :all)
     end
 
+    it "stops the page behind from scrolling until the menu closes" do
+      page.execute_script("document.querySelector('main').insertAdjacentHTML('beforeend', '<div style=\"height: 3000px\"></div>')")
+      find(hamburger).click
+      page.driver.browser.action.scroll_by(0, 300).perform
+      sleep 0.2
+
+      expect(page.evaluate_script("window.scrollY")).to eq(0)
+
+      find(close_button).click
+      page.driver.browser.action.scroll_by(0, 300).perform
+
+      sleep 0.2
+
+      expect(page.evaluate_script("window.scrollY")).to be > 0
+    end
+
     it "closes the menu with its close button" do
       find(hamburger).click
       find(close_button).click
