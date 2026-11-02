@@ -93,6 +93,16 @@ RSpec.describe "Sidenav", type: :system do
       expect(page).to have_no_css(hamburger)
       expect(page).to have_no_css(close_button)
     end
+
+    it "lets a menu taller than the screen scroll" do
+      visit account_path
+
+      page.execute_script("document.querySelector('aside nav').style.height = '1500px'")
+      page.driver.browser.action.scroll_by(0, 300).perform
+      sleep 0.2
+
+      expect(page.evaluate_script("document.querySelector('aside').scrollTop")).to be > 0
+    end
   end
 
   # These run in order: the second proves the first gave the window back.
