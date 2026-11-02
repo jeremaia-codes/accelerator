@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get "smoke" => "smoke#show", as: :smoke
 
+  resource :account, only: :show
+
   mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
 
   # Defines the root path route ("/")
