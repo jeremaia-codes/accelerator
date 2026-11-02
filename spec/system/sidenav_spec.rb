@@ -69,6 +69,16 @@ RSpec.describe "Sidenav", type: :system do
       expect(page.evaluate_script("window.scrollY")).to be > 0
     end
 
+    it "lets a menu taller than the screen scroll" do
+      resize_window(600, 300)
+      find(hamburger).click
+      page.execute_script("document.querySelector('aside nav').style.height = '1000px'")
+      page.driver.browser.action.scroll_by(0, 300).perform
+      sleep 0.2
+
+      expect(page.evaluate_script("document.querySelector('aside').scrollTop")).to be > 0
+    end
+
     it "closes the menu with its close button" do
       find(hamburger).click
       find(close_button).click
