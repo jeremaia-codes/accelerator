@@ -3,10 +3,13 @@
 
 <%# Sidenav: a drawer over the page on mobile (opened by the sidenav controller), an always-visible sticky sidebar from md up %>
 <aside id="sidenav" data-sidenav-target="menu" class="fixed inset-y-0 left-0 z-20 hidden h-screen w-64 shrink-0 border-r border-line bg-canvas px-3 pb-4 md:sticky md:top-0 md:block">
-  <div class="flex h-header items-center px-3">
+  <div class="flex h-header items-center justify-between px-3">
     <%= link_to account_path do %>
       <%= image_tag "/icon.svg", alt: "Accelerator", class: "h-8 w-8" %>
     <% end %>
+    <button type="button" data-action="sidenav#close" aria-label="Close menu" class="-mr-3 flex h-10 w-10 items-center justify-center rounded-md text-ink hover:bg-hover md:hidden">
+      <%= render "icons/close" %>
+    </button>
   </div>
 
   <nav aria-label="Main" class="text-sm">
