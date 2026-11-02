@@ -183,3 +183,9 @@ pattern works for any other driver: register it with Capybara, then call
 - **Cons:** you must remember to tag specs that need JavaScript (untagged ones
   silently skip it), and a spec can pass in `rack_test` even if the real page
   has a JavaScript error.
+
+### TODO
+
+- Move `resize_window` (and the `after` hook that puts the window size back)
+  out of `spec/system/sidenav_spec.rb` into a shared module in `spec/support/`.
+  Only do it once another system spec needs to resize the window.
