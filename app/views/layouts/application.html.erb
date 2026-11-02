@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= content_for(:title) || "Accelerator" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,9 +23,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="bg-canvas text-ink-muted antialiased">
+    <div class="flex min-h-screen flex-col md:flex-row">
+      <%= render "layouts/sidenav" %>
+
+      <main class="flex-1 px-5 pt-8 pb-8 md:px-10 md:pt-header">
+        <div class="mx-auto max-w-4xl">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
