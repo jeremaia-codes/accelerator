@@ -189,3 +189,22 @@ pattern works for any other driver: register it with Capybara, then call
 - Move `resize_window` (and the `after` hook that puts the window size back)
   out of `spec/system/sidenav_spec.rb` into a shared module in `spec/support/`.
   Only do it once another system spec needs to resize the window.
+- Close the sidenav on `turbo:before-cache`.
+  - When you leave a page, Turbo saves an HTML screengrab of it so the back
+    button can show it straight away.
+  - For now the menu is closed in the controller's `disconnect`. That only
+    works because the old page is swapped out just before Turbo takes the
+    screengrab.
+  - Once a page loads its own stylesheet (e.g. with `content_for :head`),
+    Turbo waits for it before swapping. The screengrab then catches the menu
+    open, and going back shows it open.
+  - The fix is one line in `app/views/layouts/application.html.erb`, closing
+    the menu just before Turbo takes the screengrab:
+
+    ```diff
+    - data-action="keydown.esc@window->sidenav#close"
+    + data-action="keydown.esc@window->sidenav#close turbo:before-cache@document->sidenav#close"
+    ```
+
+  - Add a system spec at the same time: open the menu on a page, click a link
+    to the page with its own stylesheet, go back, and check the menu is closed.
