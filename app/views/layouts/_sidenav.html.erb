@@ -2,7 +2,7 @@
 <div data-sidenav-target="backdrop" data-action="click->sidenav#close" class="fixed inset-0 z-10 hidden bg-overlay md:hidden"></div>
 
 <%# Sidenav: a drawer over the page on mobile (opened by the sidenav controller), an always-visible sticky sidebar from md up %>
-<aside id="sidenav" data-sidenav-target="menu" class="fixed inset-y-0 left-0 z-20 hidden h-dvh w-64 overflow-y-auto shrink-0 border-r border-line bg-canvas px-3 pb-4 md:sticky md:top-0 md:block">
+<aside id="sidenav" data-sidenav-target="menu" data-action="keydown->sidenav#wrapFocus" class="fixed inset-y-0 left-0 z-20 hidden h-dvh w-64 overflow-y-auto shrink-0 border-r border-line bg-canvas px-3 pb-4 md:sticky md:top-0 md:block">
   <div class="flex h-header items-center justify-between px-3">
     <%= link_to account_path do %>
       <%= image_tag "/icon.svg", alt: "Accelerator", class: "h-8 w-8" %>
