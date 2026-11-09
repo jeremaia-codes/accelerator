@@ -28,6 +28,21 @@ export default class extends Controller {
     this.toggleTarget.focus()
   }
 
+  // Wraps Tab and Shift+Tab around the open drawer, so focus can't leave it
+  // for the browser's own controls. Does nothing while the drawer is closed,
+  // which is always the case from md up.
+  wrapFocus(event) {
+  if (event.key !== "Tab" || this.menuTarget.classList.contains("hidden")) return
+
+    const focusable = this.menuTarget.querySelectorAll("a[href], button:not([disabled])")
+    const [first, last] = [focusable[0], focusable[focusable.length - 1]]
+    const [from, to] = event.shiftKey ? [first, last] : [last, first]
+
+    if (document.activeElement !== from) return
+    event.preventDefault()
+    to.focus()
+  }
+
   setOpen(open) {
     this.menuTarget.classList.toggle("hidden", !open)
     this.backdropTarget.classList.toggle("hidden", !open)
