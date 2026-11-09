@@ -5,6 +5,8 @@ require "rails_helper"
 RSpec.describe "Sidenav", type: :system do
   let(:hamburger) { "button[aria-label='Open menu']" }
   let(:close_button) { "button[aria-label='Close menu']" }
+  let(:logo_link) { "aside a:has(img[alt='Accelerator'])" }
+  let(:account_link) { "aside nav a" }
 
   # Capybara reuses one browser window for every example, so put its size back.
   after { page.current_window.resize_to(*@original_size) if @original_size }
@@ -43,6 +45,20 @@ RSpec.describe "Sidenav", type: :system do
       expect(page).to have_css("#{close_button}:focus")
       expect(page).to have_css("main[inert]")
       expect(page).to have_css("[data-sidenav-target='background'][inert]", visible: :all, count: 2)
+    end
+
+    it "wraps Tab from the last link back to the first" do
+      find(hamburger).click
+      find(account_link).send_keys(:tab)
+
+      expect(page).to have_css("#{logo_link}:focus")
+    end
+
+    it "wraps Shift+Tab from the first link back to the last" do
+      find(hamburger).click
+      find(logo_link).send_keys([ :shift, :tab ])
+
+      expect(page).to have_css("#{account_link}:focus")
     end
 
     it "gives focus back to the hamburger and unblocks the page on close" do
@@ -92,6 +108,14 @@ RSpec.describe "Sidenav", type: :system do
       expect(page).to have_css("aside", text: "Account")
       expect(page).to have_no_css(hamburger)
       expect(page).to have_no_css(close_button)
+    end
+
+    it "lets Tab move out of the menu" do
+      resize_window(1280, 800)
+      visit account_path
+      find(account_link).send_keys(:tab)
+
+      expect(page).to have_no_css("#{logo_link}:focus")
     end
 
     it "lets a menu taller than the screen scroll" do
