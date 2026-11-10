@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title><%= content_for(:title) || "Accelerator" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,9 +23,24 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="bg-canvas text-ink-muted antialiased">
+    <%# Sidenav controller wrapper; Esc closes the menu %>
+    <div data-controller="sidenav" data-action="keydown.esc@window->sidenav#close" class="flex min-h-screen flex-col md:flex-row">
+      <%# Mobile-only header with the menu button; made inert while the sidenav is open %>
+      <div data-sidenav-target="background" class="flex h-header items-center px-5 md:hidden">
+        <button type="button" data-sidenav-target="toggle" data-action="sidenav#open" aria-label="Open menu" aria-controls="sidenav" aria-expanded="false" class="-ml-3 flex h-10 w-10 items-center justify-center rounded-md text-ink hover:bg-hover">
+          <%= render "icons/menu" %>
+        </button>
+      </div>
+
+      <%= render "layouts/sidenav" %>
+
+      <%# Page content; also made inert while the sidenav is open on mobile %>
+      <main data-sidenav-target="background" class="flex-1 px-5 pb-8 md:px-10 md:pt-header">
+        <div class="mx-auto max-w-4xl">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
