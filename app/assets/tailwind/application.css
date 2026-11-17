@@ -1,1 +1,31 @@
 @import "tailwindcss";
+@import "./tokens.css";
+
+/* ---- Don't build classes from docs folder ---- */
+@source not "../../../docs";
+
+/* ---- Utilities: bg-canvas, text-ink, border-line, shadow-card, ... ---- */
+@theme inline {
+  --color-canvas:      var(--canvas);
+  --color-card:        var(--card);
+  --color-line:        var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-hover:       var(--hover);
+  --color-active:      var(--active);
+  --color-ink:         var(--ink);
+  --color-ink-muted:   var(--ink-muted);
+  --color-ink-faint:   var(--ink-faint);
+  --color-brand:       var(--brand);
+  --color-info:        var(--info);
+  --color-success:     var(--success);
+  --color-banner:      var(--banner-bg);
+  --color-banner-line: var(--banner-line);
+  --color-banner-ink:  var(--banner-ink);
+  --color-overlay:     var(--overlay);
+  --shadow-card:       var(--card-shadow);
+}
+
+/* ---- Height of the top row shared by the sidebar and main area ---- */
+@theme {
+  --spacing-header: 4rem;
+}

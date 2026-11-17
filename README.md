@@ -46,10 +46,22 @@ standalone Tailwind CLI (no Node.js needed).
   `bin/rails tailwindcss:watch`, which rebuilds the CSS when files change.
 - `app/assets/tailwind/application.css` is the entry point. Add custom CSS
   and Tailwind config there.
+- `color-scheme: dark` in `app/assets/tailwind/tokens.css` tells the browser
+  the page is dark, so scrollbars and native form controls match. Keep it in
+  sync with the tokens when light mode is added.
 - The compiled CSS goes to `app/assets/builds/`, which is gitignored. Run
   `bin/rails tailwindcss:build` to build it once without the watcher.
 - `/smoke` is a test page with a Tailwind-styled heading. Open it to check
   that the styles are compiling.
+
+### JAVASCRIPT
+
+#### Sidenav controller
+
+- Closes the open drawer on the way up to desktop by listening for `change`
+  on `window.matchMedia("(min-width: 48rem)")`. Unlike `resize`, it fires
+  only when the width crosses the breakpoint.
+- `48rem` is Tailwind's `md`, so keep the two in sync.
 
 ### COMPONENTS
 
@@ -171,3 +183,28 @@ pattern works for any other driver: register it with Capybara, then call
 - **Cons:** you must remember to tag specs that need JavaScript (untagged ones
   silently skip it), and a spec can pass in `rack_test` even if the real page
   has a JavaScript error.
+
+### TODO
+
+- Move `resize_window` (and the `after` hook that puts the window size back)
+  out of `spec/system/sidenav_spec.rb` into a shared module in `spec/support/`.
+  Only do it once another system spec needs to resize the window.
+- Close the sidenav on `turbo:before-cache`.
+  - When you leave a page, Turbo saves an HTML screengrab of it so the back
+    button can show it straight away.
+  - For now the menu is closed in the controller's `disconnect`. That only
+    works because the old page is swapped out just before Turbo takes the
+    screengrab.
+  - Once a page loads its own stylesheet (e.g. with `content_for :head`),
+    Turbo waits for it before swapping. The screengrab then catches the menu
+    open, and going back shows it open.
+  - The fix is one line in `app/views/layouts/application.html.erb`, closing
+    the menu just before Turbo takes the screengrab:
+
+    ```diff
+    - data-action="keydown.esc@window->sidenav#close"
+    + data-action="keydown.esc@window->sidenav#close turbo:before-cache@document->sidenav#close"
+    ```
+
+  - Add a system spec at the same time: open the menu on a page, click a link
+    to the page with its own stylesheet, go back, and check the menu is closed.
