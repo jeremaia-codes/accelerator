@@ -1,0 +1,28 @@
+<% content_for :title, "Sign in" %>
+
+<% footer = capture do %>
+  <p>Don't have an account? <%= link_to "Sign up", sign_up_path, class: "link" %></p>
+<% end %>
+
+<%= render layout: "shared/auth_card", locals: {
+  title: "Sign in",
+  subtitle: "Welcome back. Enter your details to continue.",
+  footer: footer
+} do %>
+  <%= form_with(url: sign_in_path, class: "space-y-5") do |form| %>
+    <div>
+      <%= form.label :email, class: "form-label" %>
+      <%= form.email_field :email, value: params[:email_hint], required: true, autofocus: true, autocomplete: "email", placeholder: "you@example.com", class: "form-input" %>
+    </div>
+
+    <div>
+      <div class="mb-1.5 flex items-center justify-between">
+        <%= form.label :password, class: "form-label mb-0" %>
+        <%= link_to "Forgot your password?", new_identity_password_reset_path, class: "text-xs text-ink-muted hover:text-ink" %>
+      </div>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", class: "form-input" %>
+    </div>
+
+    <%= form.submit "Sign in", class: "btn-primary" %>
+  <% end %>
+<% end %>

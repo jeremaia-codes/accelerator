@@ -24,6 +24,9 @@
   --color-banner:      var(--banner-bg);
   --color-banner-line: var(--banner-line);
   --color-banner-ink:  var(--banner-ink);
+  --color-danger:      var(--danger);
+  --color-danger-bg:   var(--danger-bg);
+  --color-danger-line: var(--danger-line);
   --color-overlay:     var(--overlay);
   --shadow-card:       var(--card-shadow);
 }
@@ -31,4 +34,27 @@
 /* ---- Height of the top row shared by the sidebar and main area ---- */
 @theme {
   --spacing-header: 4rem;
+}
+
+/* ---- Form styles shared by the signed-out pages ---- */
+@layer components {
+  .form-label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+
+  .form-input {
+    @apply block w-full rounded-md border border-line-strong bg-card px-3 py-2 text-sm text-ink shadow-card transition-colors placeholder:text-ink-faint focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none;
+  }
+
+  .form-hint {
+    @apply mt-1.5 text-xs text-ink-faint;
+  }
+
+  .btn-primary {
+    @apply flex w-full cursor-pointer items-center justify-center rounded-md bg-ink px-3 py-2 text-sm font-medium text-canvas shadow-card transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:outline-none;
+  }
+
+  .link {
+    @apply font-medium text-ink underline-offset-4 hover:underline;
+  }
 }

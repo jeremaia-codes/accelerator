@@ -1,0 +1,33 @@
+<% content_for :title, "Sign up" %>
+
+<% footer = capture do %>
+  <p>Already have an account? <%= link_to "Sign in", sign_in_path, class: "link" %></p>
+<% end %>
+
+<%= render layout: "shared/auth_card", locals: {
+  title: "Create your account",
+  subtitle: "Sign up with your email address.",
+  footer: footer
+} do %>
+  <%= form_with(url: sign_up_path, class: "space-y-5") do |form| %>
+    <%= render "shared/form_errors", record: @user %>
+
+    <div>
+      <%= form.label :email, class: "form-label" %>
+      <%= form.email_field :email, value: @user.email, required: true, autofocus: true, autocomplete: "email", placeholder: "you@example.com", class: "form-input" %>
+    </div>
+
+    <div>
+      <%= form.label :password, class: "form-label" %>
+      <%= form.password_field :password, required: true, autocomplete: "new-password", class: "form-input" %>
+      <p class="form-hint">12 characters minimum.</p>
+    </div>
+
+    <div>
+      <%= form.label :password_confirmation, class: "form-label" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "form-input" %>
+    </div>
+
+    <%= form.submit "Sign up", class: "btn-primary" %>
+  <% end %>
+<% end %>

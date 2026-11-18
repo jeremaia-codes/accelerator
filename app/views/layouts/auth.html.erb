@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%= render "layouts/head" %>
+
+  <%# Signed-out pages: no sidenav, just the page centred on the canvas %>
+  <body class="bg-canvas text-ink-muted antialiased">
+    <main class="flex min-h-screen items-start justify-center px-5 py-16 md:py-28">
+      <%= yield %>
+    </main>
+  </body>
+</html>

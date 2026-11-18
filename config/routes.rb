@@ -15,8 +15,20 @@ Rails.application.routes.draw do
 
   resource :account, only: :show
 
+  get  "sign_in", to: "sessions#new"
+  post "sign_in", to: "sessions#create"
+  get  "sign_up", to: "registrations#new"
+  post "sign_up", to: "registrations#create"
+  resources :sessions, only: [ :index, :show, :destroy ]
+  resource  :password, only: [ :edit, :update ]
+  namespace :identity do
+    resource :email,              only: [ :edit, :update ]
+    resource :email_verification, only: [ :show, :create ]
+    resource :password_reset,     only: [ :new, :edit, :create, :update ]
+  end
+
   mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end

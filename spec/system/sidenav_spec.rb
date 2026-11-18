@@ -18,6 +18,7 @@ RSpec.describe "Sidenav", type: :system do
 
   context "below the md breakpoint" do
     before do
+      sign_in_as create(:user)
       resize_window(600, 800)
       visit account_path
     end
@@ -102,6 +103,7 @@ RSpec.describe "Sidenav", type: :system do
 
   context "from the md breakpoint up" do
     before do
+      sign_in_as create(:user)
       resize_window(1280, 800)
       visit account_path
     end

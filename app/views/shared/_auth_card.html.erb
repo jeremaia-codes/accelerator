@@ -1,0 +1,23 @@
+<%# Centred card shell for the signed-out pages. Render with `render layout:`. %>
+<div class="mx-auto w-full max-w-sm">
+  <div class="mb-6 text-center">
+    <h1 class="text-2xl font-medium text-ink"><%= title %></h1>
+    <p class="mt-2 text-sm text-ink-muted"><%= subtitle %></p>
+  </div>
+
+  <% if notice.present? %>
+    <p role="status" class="mb-4 rounded-md border border-banner-line bg-banner px-4 py-3 text-sm text-banner-ink"><%= notice %></p>
+  <% end %>
+
+  <% if alert.present? %>
+    <p role="alert" class="mb-4 rounded-md border border-danger-line bg-danger-bg px-4 py-3 text-sm text-danger"><%= alert %></p>
+  <% end %>
+
+  <div class="rounded-xl border border-line bg-card px-6 py-6 shadow-card">
+    <%= yield %>
+  </div>
+
+  <% if local_assigns[:footer] %>
+    <div class="mt-6 space-y-2 text-center text-sm text-ink-muted"><%= footer %></div>
+  <% end %>
+</div>

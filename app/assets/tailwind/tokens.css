@@ -40,6 +40,9 @@
   --banner-bg:    rgba(6,78,59,0.16);
   --banner-line:  rgba(6,95,70,0.40);
   --banner-ink:   #34d399;
+  --danger:       #f97066;
+  --danger-bg:    rgba(122,39,26,0.16);
+  --danger-line:  rgba(180,35,24,0.40);
   --card-shadow:  0 1px 2px 0 rgba(0,0,0,0.30);
   --overlay:      rgba(0,0,0,0.50);
 }
