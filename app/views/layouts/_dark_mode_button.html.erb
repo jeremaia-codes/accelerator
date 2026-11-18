@@ -1,0 +1,5 @@
+<%# Switches between light and dark mode; shows a sun in dark mode and a moon in light mode %>
+<button type="button" data-dark-mode-target="toggle" data-action="dark-mode#toggle" aria-label="Dark mode" aria-pressed="false" class="<%= local_assigns[:class] %> h-10 w-10 items-center justify-center rounded-md text-ink hover:bg-hover">
+  <%= render "icons/sun" %>
+  <%= render "icons/moon" %>
+</button>
