@@ -1,0 +1,15 @@
+<%#
+  Sets the dark class before the page is drawn. Without this, someone using
+  dark mode sees a flash of light mode, because the dark mode Stimulus
+  controller only runs after the page has loaded.
+%>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem("darkMode")
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+
+    if (savedTheme === "true" || (savedTheme === null && prefersDark)) {
+      document.documentElement.classList.add("dark")
+    }
+  })()
+</script>

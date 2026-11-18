@@ -1,5 +1,28 @@
-/* ---- Semantic tokens: dark ---- */
+/* ---- Semantic tokens: light (default) ---- */
 :root {
+  color-scheme: light;
+
+  --canvas:       #f7f7f5;
+  --card:         #ffffff;
+  --line:         #e8e8e5;
+  --line-strong:  #dcdcd9;
+  --hover:        #f0f0ee;
+  --active:       #ececea;
+  --ink:          #1a1a18;
+  --ink-muted:    #6e6e6a;
+  --ink-faint:    #9b9b96;
+  --brand:        #c15f3c;
+  --info:         #2563eb;
+  --success:      #17915b;
+  --banner-bg:    #ecfdf5;
+  --banner-line:  #a7f3d0;
+  --banner-ink:   #047857;
+  --card-shadow:  0 1px 2px 0 rgba(0,0,0,0.04);
+  --overlay:      rgba(0,0,0,0.30);
+}
+
+/* ---- Semantic tokens: dark (when the "dark" class is on <html>) ---- */
+:root.dark {
   color-scheme: dark;
 
   --canvas:       #0a0a0a;

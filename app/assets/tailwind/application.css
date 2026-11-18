@@ -4,6 +4,9 @@
 /* ---- Don't build classes from docs folder ---- */
 @source not "../../../docs";
 
+/* ---- When the "dark" class is on a page, "dark" is true for all descendants ---- */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ---- Utilities: bg-canvas, text-ink, border-line, shadow-card, ... ---- */
 @theme inline {
   --color-canvas:      var(--canvas);

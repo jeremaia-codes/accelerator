@@ -46,9 +46,11 @@ standalone Tailwind CLI (no Node.js needed).
   `bin/rails tailwindcss:watch`, which rebuilds the CSS when files change.
 - `app/assets/tailwind/application.css` is the entry point. Add custom CSS
   and Tailwind config there.
-- `color-scheme: dark` in `app/assets/tailwind/tokens.css` tells the browser
-  the page is dark, so scrollbars and native form controls match. Keep it in
-  sync with the tokens when light mode is added.
+- `app/assets/tailwind/tokens.css` holds the colours. The light values are on
+  `:root`, and the dark ones are under `:root.dark`, which applies when
+  `<html>` has the `dark` class (see [Dark mode controller](#dark-mode-controller)).
+  Each set has its own `color-scheme`, which tells the browser whether the
+  page is light or dark, so scrollbars and native form controls match.
 - The compiled CSS goes to `app/assets/builds/`, which is gitignored. Run
   `bin/rails tailwindcss:build` to build it once without the watcher.
 - `/smoke` is a test page with a Tailwind-styled heading. Open it to check
@@ -62,6 +64,46 @@ standalone Tailwind CLI (no Node.js needed).
   on `window.matchMedia("(min-width: 48rem)")`. Unlike `resize`, it fires
   only when the width crosses the breakpoint.
 - `48rem` is Tailwind's `md`, so keep the two in sync.
+
+#### Dark mode controller
+
+The toggle button in the top bar calls `toggle()`, which works out the
+opposite of the current mode and then does two things:
+
+```js
+this.setDarkMode(dark)                 // change the page now
+localStorage.setItem("darkMode", dark) // remember it for next time
+```
+
+- `setDarkMode` adds or removes the `dark` class on `<html>`. With the class
+  on, the `:root.dark` tokens apply, so utilities like `bg-canvas` switch
+  colour together, and icons with a dark variant change theme. It also sets
+  `aria-pressed` on the button so screen readers know whether dark mode is on.
+- `classList.toggle("dark", dark)` has a second argument, so it doesn't flip
+  the class. It adds the class when `dark` is `true` and removes it when it's
+  `false`. We need to pass a true/false to `toggle` because `connect()` also
+  calls `setDarkMode`, after the inline script below has usually added the
+  class already, so if the user has already selected dark mode, we reaffirm
+  the selection by passing `true`. Without it, a plain flip would undo their
+  choice, and because Turbo swaps `<body>` (where the controller lives) on
+  every visit while `<html>` keeps its class, it would switch modes each time
+  they click a link.
+- `localStorage` keeps the choice across reloads, but only stores text, so
+  `true` is saved as `"true"`. That's why the code checks
+  `savedTheme === "true"`. `null` means nothing has been saved yet, so the
+  system setting (`prefers-color-scheme`) is used instead.
+- Both are needed. Without `setDarkMode` nothing changes until the next page
+  load. Without `setItem` the next page load goes back to the old mode.
+
+On each page load the saved value is read twice:
+
+1. An inline script in the `<head>`
+   (`app/views/layouts/_dark_mode_flash_prevention.html.erb`) adds the class
+   before anything is drawn, so dark mode users don't see a flash of light
+   mode.
+2. The controller's `connect()` reads it again and calls `setDarkMode`, which
+   sets `aria-pressed` on the button. The inline script doesn't touch the
+   button.
 
 ### COMPONENTS
 
