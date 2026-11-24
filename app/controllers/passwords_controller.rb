@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PasswordsController < ApplicationController
+  layout "account_settings"
+
   before_action :set_user
 
   def edit
@@ -8,7 +10,7 @@ class PasswordsController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to root_path, notice: "Your password has been changed"
+      redirect_to edit_password_path, notice: "Your password has been changed"
     else
       render :edit, status: :unprocessable_content
     end

@@ -1,43 +1,34 @@
-<p style="color: red"><%= alert %></p>
+<% content_for :title, "Email" %>
 
-<% if Current.user.verified? %>
-  <h1>Change your email</h1>
-<% else %>
-  <h1>Verify your email</h1>
-  <p>We sent a verification email to the address below. Check that email and follow those instructions to confirm it's your email address.</p>
-  <p><%= button_to "Re-send verification email", identity_email_verification_path %></p>
-<% end %>
+<h1 class="mb-6 text-2xl/9 font-medium text-ink">Email</h1>
 
-<%= form_with(url: identity_email_path, method: :patch) do |form| %>
-  <% if @user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-        <% @user.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<% unless Current.user.verified? %>
+  <div class="mb-4 flex flex-col gap-3 rounded-xl border border-banner-line bg-banner px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-center gap-3 text-sm text-banner-ink">
+      <%= render "icons/mail" %>
+      We sent you a link to verify your email address.
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :email, "New email", style: "display: block" %>
-    <%= form.email_field :email, required: true, autofocus: true %>
-  </div>
-
-  <div>
-    <%= form.label :password_challenge, style: "display: block" %>
-    <%= form.password_field :password_challenge, required: true, autocomplete: "current-password" %>
-  </div>
-
-  <div>
-    <%= form.submit "Save changes" %>
+    <%= button_to "Resend email", identity_email_verification_path, class: "shrink-0 cursor-pointer rounded-md border border-banner-line bg-card px-3.5 py-1.5 text-sm text-banner-ink shadow-card transition-colors hover:bg-hover" %>
   </div>
 <% end %>
 
-<br>
+<%= render layout: "shared/card", locals: {
+  title: "Change email",
+  description: "You're signed in as #{Current.user.email}."
+} do %>
+  <%= form_with(url: identity_email_path, method: :patch, class: "max-w-sm space-y-5") do |form| %>
+    <div>
+      <%= form.label :email, "New email", class: "form-label" %>
+      <%= form.email_field :email, required: true, autocomplete: "email", aria: field_error_aria(@user, :email), class: "form-input" %>
+      <%= field_error @user, :email %>
+    </div>
 
-<div>
-  <%= link_to "Back", root_path %>
-</div>
+    <div>
+      <%= form.label :password_challenge, "Current password", class: "form-label" %>
+      <%= form.password_field :password_challenge, required: true, autocomplete: "current-password", aria: field_error_aria(@user, :password_challenge), class: "form-input" %>
+      <%= field_error @user, :password_challenge %>
+    </div>
+
+    <%= form.submit "Save changes", class: "btn-primary w-auto" %>
+  <% end %>
+<% end %>

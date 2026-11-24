@@ -11,6 +11,12 @@ RSpec.describe "Account", type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it "is where the root path goes" do
+    get root_path
+
+    expect(response).to redirect_to(account_path)
+  end
+
   it "redirects to sign in when signed out" do
     get account_path
 

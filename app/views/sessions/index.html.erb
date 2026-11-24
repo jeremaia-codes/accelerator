@@ -1,34 +1,27 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Devices & sessions" %>
 
-<h1>Devices & Sessions</h1>
+<h1 class="mb-6 text-2xl/9 font-medium text-ink">Devices & sessions</h1>
 
-<div id="sessions">
-  <% @sessions.each do |session| %>
-    <div id="<%= dom_id session %>">
-      <p>
-        <strong>User Agent:</strong>
-        <%= session.user_agent %>
-      </p>
+<%= render layout: "shared/card", locals: {
+  title: "Active sessions",
+  description: "Devices signed in to your account. Log out of any you don't recognise."
+} do %>
+  <ul id="sessions" class="-my-4 divide-y divide-line">
+    <% @sessions.each do |session| %>
+      <li id="<%= dom_id session %>" class="flex items-center justify-between gap-6 py-4">
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm text-ink" title="<%= session.user_agent %>"><%= session.user_agent.presence || "Unknown device" %></p>
+          <p class="mt-1 text-xs text-ink-faint">
+            <%= [ session.ip_address, "Signed in #{time_ago_in_words(session.created_at)} ago" ].compact_blank.join(" · ") %>
+          </p>
+        </div>
 
-      <p>
-        <strong>Ip Address:</strong>
-        <%= session.ip_address %>
-      </p>
-
-      <p>
-        <strong>Created at:</strong>
-        <%= session.created_at %>
-      </p>
-
-    </div>
-    <p>
-      <%= button_to "Log out", session, method: :delete %>
-    </p>
-  <% end %>
-</div>
-
-<br>
-
-<div>
-  <%= link_to "Back", root_path %>
-</div>
+        <% if session == Current.session %>
+          <span class="shrink-0 rounded-md bg-active px-2.5 py-1 text-xs text-ink">This device</span>
+        <% else %>
+          <%= button_to "Log out", session, method: :delete, class: "btn-secondary" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

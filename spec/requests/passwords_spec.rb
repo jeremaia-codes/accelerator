@@ -14,13 +14,13 @@ RSpec.describe "Passwords", type: :request do
   it "updates the password" do
     patch password_path, params: { password_challenge: "Secret1*3*5*", password: "Secret6*4*2*", password_confirmation: "Secret6*4*2*" }
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(edit_password_path)
   end
 
   it "rejects a wrong password challenge" do
     patch password_path, params: { password_challenge: "SecretWrong1*3", password: "Secret6*4*2*", password_confirmation: "Secret6*4*2*" }
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(response.body).to match(/Password challenge is invalid/)
+    expect(response.body).to match(/Current password is invalid/)
   end
 end

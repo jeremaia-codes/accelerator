@@ -1,0 +1,17 @@
+<%# Card with a title, an optional description and action, and the block as its body. Render with `render layout:`. %>
+<% body = yield %>
+<section class="mb-4 rounded-xl border border-line bg-card px-6 py-6 shadow-card">
+  <div class="flex items-center justify-between gap-6">
+    <div class="min-w-0">
+      <h2 class="text-lg font-medium text-ink"><%= title %></h2>
+      <% if local_assigns[:description] %>
+        <p class="mt-1 text-sm text-ink-muted"><%= description %></p>
+      <% end %>
+    </div>
+    <%= local_assigns[:action] %>
+  </div>
+
+  <% if body.present? %>
+    <div class="mt-6"><%= body %></div>
+  <% end %>
+</section>

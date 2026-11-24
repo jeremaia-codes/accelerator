@@ -7,14 +7,7 @@ RSpec.describe "Sidenav", type: :system do
   let(:close_button) { "button[aria-label='Close menu']" }
   let(:logo_link) { "aside a:has(img[alt='Accelerator'])" }
   let(:account_link) { "aside nav a" }
-
-  # Capybara reuses one browser window for every example, so put its size back.
-  after { page.current_window.resize_to(*@original_size) if @original_size }
-
-  def resize_window(width, height)
-    @original_size ||= page.current_window.size
-    page.current_window.resize_to(width, height)
-  end
+  let(:user_menu_button) { "aside button[aria-controls='user_menu']" }
 
   context "below the md breakpoint" do
     before do
@@ -50,7 +43,7 @@ RSpec.describe "Sidenav", type: :system do
 
     it "wraps Tab from the last link back to the first" do
       find(hamburger).click
-      find(account_link).send_keys(:tab)
+      find(user_menu_button).send_keys(:tab)
 
       expect(page).to have_css("#{logo_link}:focus")
     end
@@ -59,7 +52,7 @@ RSpec.describe "Sidenav", type: :system do
       find(hamburger).click
       find(logo_link).send_keys([ :shift, :tab ])
 
-      expect(page).to have_css("#{account_link}:focus")
+      expect(page).to have_css("#{user_menu_button}:focus")
     end
 
     it "gives focus back to the hamburger and unblocks the page on close" do
@@ -117,7 +110,7 @@ RSpec.describe "Sidenav", type: :system do
     it "lets Tab move out of the menu" do
       resize_window(1280, 800)
       visit account_path
-      find(account_link).send_keys(:tab)
+      find(user_menu_button).send_keys(:tab)
 
       expect(page).to have_no_css("#{logo_link}:focus")
     end

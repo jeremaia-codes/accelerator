@@ -13,6 +13,7 @@ RSpec.describe "Dark mode", type: :system do
   # Called inside each example, as rspec-rails only picks the JS driver after
   # this group's own before hooks have run.
   def visit_in_light_mode
+    sign_in_as create(:user)
     visit account_path
     page.execute_script("localStorage.setItem('darkMode', 'false')")
     visit account_path
@@ -22,7 +23,7 @@ RSpec.describe "Dark mode", type: :system do
   after { page.execute_script("localStorage.clear()") }
 
   it "shows one toggle" do
-    visit account_path
+    sign_in_as create(:user)
 
     expect(page).to have_css(toggle, count: 1)
   end

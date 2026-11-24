@@ -30,11 +30,13 @@ export default class extends Controller {
 
   // Wraps Tab and Shift+Tab around the open drawer, so focus can't leave it
   // for the browser's own controls. Does nothing while the drawer is closed,
-  // which is always the case from md up.
+  // which is always the case from md up. Hidden links, like those in a closed
+  // user menu, are skipped.
   wrapFocus(event) {
     if (event.key !== "Tab" || this.menuTarget.classList.contains("hidden")) return
 
-    const focusable = this.menuTarget.querySelectorAll("a[href], button:not([disabled])")
+    const focusable = [...this.menuTarget.querySelectorAll("a[href], button:not([disabled])")]
+      .filter((element) => element.checkVisibility())
     const [first, last] = [focusable[0], focusable[focusable.length - 1]]
     const [from, to] = event.shiftKey ? [first, last] : [last, first]
 

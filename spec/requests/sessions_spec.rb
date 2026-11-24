@@ -21,9 +21,9 @@ RSpec.describe "Sessions", type: :request do
 
   it "signs in with valid credentials" do
     post sign_in_path, params: { email: user.email, password: "Secret1*3*5*" }
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(account_path)
 
-    get root_path
+    get account_path
     expect(response).to have_http_status(:ok)
   end
 
@@ -32,17 +32,27 @@ RSpec.describe "Sessions", type: :request do
     expect(response).to redirect_to(sign_in_path(email_hint: user.email))
     expect(flash[:alert]).to eq("That email or password is incorrect")
 
-    get root_path
+    get account_path
     expect(response).to redirect_to(sign_in_path)
   end
 
-  it "signs out" do
+  it "logs out a session" do
     sign_in_as user
 
     delete session_path(user.sessions.last)
     expect(response).to redirect_to(sessions_path)
 
     follow_redirect!
+    expect(response).to redirect_to(sign_in_path)
+  end
+
+  it "signs out" do
+    sign_in_as user
+
+    expect { delete sign_out_path }.to change(user.sessions, :count).by(-1)
+    expect(response).to redirect_to(sign_in_path)
+
+    get account_path
     expect(response).to redirect_to(sign_in_path)
   end
 end

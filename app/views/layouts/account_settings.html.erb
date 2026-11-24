@@ -1,0 +1,16 @@
+<%# The app layout with the account settings links in the sidenav %>
+<% content_for :sidenav_links do %>
+  <%= link_to account_path, class: "mb-4 flex items-center gap-2.5 px-3 py-2 text-ink-faint transition-colors hover:text-ink" do %>
+    <%= render "icons/arrow_left" %>
+    Back to Account
+  <% end %>
+
+  <div class="space-y-0.5">
+    <%= render "layouts/sidenav_link", label: "Account settings", path: account_settings_path, icon: "icons/settings" %>
+    <%= render "layouts/sidenav_link", label: "Email", path: edit_identity_email_path, icon: "icons/mail", active: controller_path == "identity/emails" %>
+    <%= render "layouts/sidenav_link", label: "Password", path: edit_password_path, icon: "icons/key", active: controller_path == "passwords" %>
+    <%= render "layouts/sidenav_link", label: "Devices & sessions", path: sessions_path, icon: "icons/devices" %>
+  </div>
+<% end %>
+
+<%= render template: "layouts/application" %>

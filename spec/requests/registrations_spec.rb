@@ -14,7 +14,7 @@ RSpec.describe "Registrations", type: :request do
       post sign_up_path, params: { email: "new@example.com", password: "Secret1*3*5*", password_confirmation: "Secret1*3*5*" }
     }.to change(User, :count).by(1)
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(account_path)
   end
 
   it "re-renders the form with errors when the password is too short" do

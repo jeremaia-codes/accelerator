@@ -1,0 +1,6 @@
+<%# Pass `active:` when the link should stay highlighted on other actions, like a re-rendered form %>
+<% active = local_assigns.fetch(:active) { current_page?(path) } %>
+<%= link_to path, aria: { current: (active ? "page" : nil) }, class: "group flex items-center gap-3 rounded-md px-3 py-2 text-ink transition-colors hover:bg-hover aria-[current=page]:bg-active" do %>
+  <span class="text-ink-faint group-aria-[current=page]:text-ink"><%= render icon %></span>
+  <%= label %>
+<% end %>

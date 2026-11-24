@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Identity::EmailsController < ApplicationController
+  layout "account_settings"
+
   before_action :set_user
 
   def edit
@@ -8,7 +10,7 @@ class Identity::EmailsController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to_root
+      redirect_to_edit
     else
       render :edit, status: :unprocessable_content
     end
@@ -23,12 +25,12 @@ class Identity::EmailsController < ApplicationController
       params.permit(:email, :password_challenge).with_defaults(password_challenge: "")
     end
 
-    def redirect_to_root
+    def redirect_to_edit
       if @user.email_previously_changed?
         resend_email_verification
-        redirect_to root_path, notice: "Your email has been changed"
+        redirect_to edit_identity_email_path, notice: "Your email has been changed"
       else
-        redirect_to root_path
+        redirect_to edit_identity_email_path
       end
     end
 

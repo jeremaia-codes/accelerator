@@ -1,4 +1,5 @@
-<%# Centred card shell for the signed-out pages. Render with `render layout:`. %>
+<%# Centred card shell for the signed-out pages. Render with `render layout:`.
+    Pass `inline_alert: true` when the page shows the alert next to a field itself. %>
 <div class="mx-auto w-full max-w-sm">
   <div class="mb-6 text-center">
     <h1 class="text-2xl font-medium text-ink"><%= title %></h1>
@@ -9,7 +10,7 @@
     <p role="status" class="mb-4 rounded-md border border-banner-line bg-banner px-4 py-3 text-sm text-banner-ink"><%= notice %></p>
   <% end %>
 
-  <% if alert.present? %>
+  <% if alert.present? && !local_assigns[:inline_alert] %>
     <p role="alert" class="mb-4 rounded-md border border-danger-line bg-danger-bg px-4 py-3 text-sm text-danger"><%= alert %></p>
   <% end %>
 

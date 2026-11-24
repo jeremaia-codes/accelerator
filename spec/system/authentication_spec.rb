@@ -23,6 +23,7 @@ RSpec.describe "Authentication", type: :system do
     click_on "Sign in"
 
     expect(page).to have_text("Signed in successfully")
+    expect(page).to have_current_path(account_path)
   end
 
   it "shows an alert for wrong credentials" do
@@ -31,8 +32,24 @@ RSpec.describe "Authentication", type: :system do
     fill_in "Password", with: "wrong-password"
     click_on "Sign in"
 
-    expect(page).to have_css("[role=alert]", text: "That email or password is incorrect")
+    expect(page).to have_css("#sign_in_error[role=alert]", text: "That email or password is incorrect")
+    expect(page).to have_css("#password[aria-invalid=true][aria-describedby=sign_in_error]")
     expect(page).to have_field("Email", with: "nobody@example.com")
+  end
+
+  it "shows sign-up errors under the fields they belong to" do
+    create(:user, email: "taken@example.com")
+
+    visit sign_up_path
+    fill_in "Email", with: "taken@example.com"
+    fill_in "Password", with: "short"
+    fill_in "Password confirmation", with: "different"
+    click_on "Sign up"
+
+    expect(page).to have_css("#email[aria-invalid=true][aria-describedby=email_error]")
+    expect(page).to have_css("#email_error", text: "Email has already been taken")
+    expect(page).to have_css("#password_error", text: "Password is too short")
+    expect(page).to have_css("#password_confirmation_error", text: "Password confirmation doesn't match Password")
   end
 
   it "links from sign in to the password reset page" do

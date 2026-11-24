@@ -1,0 +1,21 @@
+<% content_for :title, "Account settings" %>
+
+<h1 class="mb-6 text-2xl/9 font-medium text-ink">Account settings</h1>
+
+<%= render layout: "shared/card", locals: {
+  title: "Email",
+  description: "#{Current.user.email} · #{Current.user.verified? ? "Verified" : "Not verified"}",
+  action: link_to("Change email", edit_identity_email_path, class: "btn-secondary")
+} do %><% end %>
+
+<%= render layout: "shared/card", locals: {
+  title: "Password",
+  description: "Change the password you sign in with.",
+  action: link_to("Change password", edit_password_path, class: "btn-secondary")
+} do %><% end %>
+
+<%= render layout: "shared/card", locals: {
+  title: "Devices & sessions",
+  description: "You're signed in on #{pluralize(Current.user.sessions.count, "device")}.",
+  action: link_to("Manage", sessions_path, class: "btn-secondary")
+} do %><% end %>

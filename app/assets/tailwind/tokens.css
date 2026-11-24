@@ -17,6 +17,9 @@
   --banner-bg:    #ecfdf5;
   --banner-line:  #a7f3d0;
   --banner-ink:   #047857;
+  --danger:       #b42318;
+  --danger-bg:    #fef3f2;
+  --danger-line:  #fecdca;
   --card-shadow:  0 1px 2px 0 rgba(0,0,0,0.04);
   --overlay:      rgba(0,0,0,0.30);
 }

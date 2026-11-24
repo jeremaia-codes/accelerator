@@ -3,7 +3,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate, only: %i[ new create ]
 
-  layout "auth", only: :new
+  layout -> { action_name == "new" ? "auth" : "account_settings" }
 
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to sign_in_path, alert: "Too many attempts. Try again later." }
 
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
       @session = user.sessions.create!
       cookies.signed.permanent[:session_token] = { value: @session.id, httponly: true }
 
-      redirect_to root_path, notice: "Signed in successfully"
+      redirect_to account_path, notice: "Signed in successfully"
     else
       redirect_to sign_in_path(email_hint: params[:email]), alert: "That email or password is incorrect"
     end
@@ -29,6 +29,13 @@ class SessionsController < ApplicationController
 
   def destroy
     @session.destroy; redirect_to(sessions_path, notice: "That session has been logged out")
+  end
+
+  def sign_out
+    Current.session.destroy
+    cookies.delete(:session_token)
+
+    redirect_to sign_in_path, notice: "You have signed out", status: :see_other
   end
 
   private

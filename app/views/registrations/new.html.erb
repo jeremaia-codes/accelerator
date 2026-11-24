@@ -10,22 +10,22 @@
   footer: footer
 } do %>
   <%= form_with(url: sign_up_path, class: "space-y-5") do |form| %>
-    <%= render "shared/form_errors", record: @user %>
-
     <div>
       <%= form.label :email, class: "form-label" %>
-      <%= form.email_field :email, value: @user.email, required: true, autofocus: true, autocomplete: "email", placeholder: "you@example.com", class: "form-input" %>
+      <%= form.email_field :email, value: @user.email, required: true, autofocus: true, autocomplete: "email", placeholder: "you@example.com", aria: field_error_aria(@user, :email), class: "form-input" %>
+      <%= field_error @user, :email %>
     </div>
 
     <div>
       <%= form.label :password, class: "form-label" %>
-      <%= form.password_field :password, required: true, autocomplete: "new-password", class: "form-input" %>
-      <p class="form-hint">12 characters minimum.</p>
+      <%= form.password_field :password, required: true, autocomplete: "new-password", aria: field_error_aria(@user, :password), class: "form-input" %>
+      <%= field_error(@user, :password) || tag.p("12 characters minimum.", class: "form-hint") %>
     </div>
 
     <div>
       <%= form.label :password_confirmation, class: "form-label" %>
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "form-input" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", aria: field_error_aria(@user, :password_confirmation), class: "form-input" %>
+      <%= field_error @user, :password_confirmation %>
     </div>
 
     <%= form.submit "Sign up", class: "btn-primary" %>

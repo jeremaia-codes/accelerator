@@ -12,7 +12,7 @@ RSpec.describe "Identity::EmailVerifications", type: :request do
       post identity_email_verification_path
     }.to have_enqueued_mail(UserMailer, :email_verification).with(params: { user: user }, args: [])
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(edit_identity_email_path)
   end
 
   it "verifies the email" do
@@ -20,7 +20,7 @@ RSpec.describe "Identity::EmailVerifications", type: :request do
 
     get identity_email_verification_path(sid: sid, email: user.email)
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(edit_identity_email_path)
     expect(user.reload).to be_verified
   end
 

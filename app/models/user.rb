@@ -26,4 +26,9 @@ class User < ApplicationRecord
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).delete_all
   end
+
+  # Users don't have a name yet, so show the part of their email before the @
+  def display_name
+    email.split("@").first
+  end
 end

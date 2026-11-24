@@ -8,7 +8,6 @@
 
 ## Specs
 
-- `resize_window` lives inside `spec/system/sidenav_spec.rb` for now. When
-  another system spec needs to resize the window, move it (and the `after`
-  hook that restores the original size) into a shared helper in
-  `spec/support/` instead of copying it.
+- System specs resize the browser with `resize_window` from
+  `spec/support/window_size.rb`; it puts the original size back after each
+  example.

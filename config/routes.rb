@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   get "smoke" => "smoke#show", as: :smoke
 
   resource :account, only: :show
+  resource :account_settings, only: :show
 
   get  "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
+  delete "sign_out", to: "sessions#sign_out"
   get  "sign_up", to: "registrations#new"
   post "sign_up", to: "registrations#create"
   resources :sessions, only: [ :index, :show, :destroy ]
@@ -30,5 +32,5 @@ Rails.application.routes.draw do
   mount Lookbook::Engine, at: "/lookbook" if Rails.env.development?
 
   # Defines the root path route ("/")
-  root "home#index"
+  root to: redirect("/account")
 end
